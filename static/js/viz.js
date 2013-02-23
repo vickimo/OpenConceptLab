@@ -1,11 +1,11 @@
-var n = 4, // number of layers
-    m = 58, // number of samples per layer
+var n = 3, // number of layers
+    m = 10, // number of samples per layer
     stack = d3.layout.stack(),
     layers = stack(d3.range(n).map(function() { return bumpLayer(m, .1); })),
     yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
     yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 
-var margin = {top: 40, right: 10, bottom: 20, left: 10},
+var margin = {top: 40, right: 10, bottom: 50, left: 30},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -19,13 +19,19 @@ var y = d3.scale.linear()
 
 var color = d3.scale.linear()
     .domain([0, n - 1])
-    .range(["#aad", "#556"]);
+    .range(["#EB8", "#9BD"]);
 
 var xAxis = d3.svg.axis()
     .scale(x)
     .tickSize(0)
     .tickPadding(6)
     .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .tickSize(0)
+    .tickPadding(6)
+    .orient("left");
 
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -56,6 +62,44 @@ svg.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
     .call(xAxis);
+
+svg.append("text")      // text label for the x axis
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width)
+    .attr("y", height +30)
+    .text("month of pregnancy");
+
+svg.append("g")         // Add the Y Axis
+    .attr("class", "y axis")
+    .call(yAxis);
+
+svg.append("text")
+    .attr("class", "y label")
+    .attr("text-anchor", "end")
+    .attr("y", 6)
+    .attr("dy", ".75em")
+    .attr("transform", "rotate(-90)")
+    .text("count of ANC 1, 2, 3");
+
+var legend = svg.selectAll(".legend")
+      .data(ageNames.slice().reverse())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
 
 d3.selectAll("input").on("change", change);
 
