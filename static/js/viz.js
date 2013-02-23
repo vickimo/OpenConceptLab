@@ -1,5 +1,6 @@
-var n = 1, // number of layers
-    m = 10, // number of samples per layer
+var n = 4, // number of layers
+    m = 13, // number of samples per layer
+    c = 1,
     stack = d3.layout.stack(),
     layers = stack(d3.range(n).map(function() { return bumpLayer(m, .1); })),
     yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
@@ -143,7 +144,7 @@ function bumpLayer(n, o) {
   console.log('n = ' + n);
   $.ajax({
     type: 'GET',
-    url:  "data/anc" + "1" + "testdata.json",
+    url:  "data/anc" + String(c) + "testdata.json",
     dataType: 'json',
     async: false,
     success: function(json){
@@ -153,6 +154,7 @@ function bumpLayer(n, o) {
       }
     }
   });
+  c = c + 1;
 
   return aprime;
 }
