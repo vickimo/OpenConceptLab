@@ -1,4 +1,4 @@
-var n = 4, // number of layers
+var n = 1, // number of layers
     m = 10, // number of samples per layer
     stack = d3.layout.stack(),
     layers = stack(d3.range(n).map(function() { return bumpLayer(m, .1); })),
@@ -140,40 +140,21 @@ function bumpLayer(n, o) {
   });
 
   var aprime = [];
-
+  console.log('n = ' + n);
   $.ajax({
     type: 'GET',
-    url:  "data/five_thousand_mothers.json",
+    url:  "data/anc" + "1" + "testdata.json",
     dataType: 'json',
     async: false,
     success: function(json){
-      console.log(json.all_registrations.length);
-      for(i = 0; i < json.all_registrations.length; i++)
+      for(i = 0; i < json.length; i++)
       {
-        console.log(aprime[json.all_registrations[i].village] == undefined);
-        if(aprime[json.all_registrations[i].village] == undefined)
-        {
-          aprime[json.all_registrations[i].village] = 1;
-        }
-        else
-        {
-          aprime[json.all_registrations[i].village]++;          
-        }
-        // aprime[i] = {x: json.all_registrations[i].village, y: json.all_registrations[i].mother_age };
+        aprime[i] = {x: json[i][0] , y: json[i][1]}
       }
     }
   });
-  aprimeprime=[];
-  for(i=0; i < aprime.length; i++)
-  {
-    aprimeprime[i] = {x: i, y: aprime[i]};
-  }
-  return aprimeprime;
 
-  // var a = [], i;
-  // for (i = 0; i < n; ++i) a[i] = o + o * Math.random();
-  // for (i = 0; i < 5; ++i) bump(a);
-  // return a.map(function(d, i) { return {x: i, y: Math.max(0, d)}; });
+  return aprime;
 }
 
 
