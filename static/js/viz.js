@@ -81,7 +81,7 @@ svg.append("text")
     .attr("y", 6)
     .attr("dy", ".75em")
     .attr("transform", "rotate(-90)")
-    .text("count of ANC 1, 2, 3");
+    .text("count of ANC 1, 2, 3, 4");
 
 
 
