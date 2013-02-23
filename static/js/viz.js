@@ -168,7 +168,6 @@ function bumpLayer(n, o) {
   {
     aprimeprime[i] = {x: i, y: aprime[i]};
   }
-  console.log(aprimeprime);
   return aprimeprime;
 
   // var a = [], i;
